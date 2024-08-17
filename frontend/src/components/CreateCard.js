@@ -17,7 +17,7 @@ function CreateCard({ setShowCreateCard, setCardData }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/v1/cards', newCardData);
+      const response = await axios.post('https://fullstack-assignment-c1dy.onrender.com/api/v1/cards', newCardData);
       setCardData(prevState => [...prevState, response.data]);
       setShowCreateCard(false);
     } catch (error) {

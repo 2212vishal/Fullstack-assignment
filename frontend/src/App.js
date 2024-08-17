@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/cards");
+        const response = await axios.get("https://fullstack-assignment-c1dy.onrender.com/api/v1/cards");
         setCardData(response.data);
       } catch (error) {
         console.error("Error fetching cards:", error);
@@ -30,7 +30,7 @@ function App() {
     setSearchTerm(e.target.value);
     if (e.target.value) {
       try {
-        const response = await axios.get(`http://localhost:4000/api/v1/cards/${e.target.value}`);
+        const response = await axios.get(`https://fullstack-assignment-c1dy.onrender.com/api/v1/cards/${e.target.value}`);
         setCardData(response.data.length > 0 ? response.data : []);
       } catch (error) {
         console.error("Error fetching card by title:", error);
@@ -38,7 +38,7 @@ function App() {
       }
     } else {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/cards");
+        const response = await axios.get("https://fullstack-assignment-c1dy.onrender.com/api/v1/cards");
         setCardData(response.data);
       } catch (error) {
         console.error("Error fetching all cards:", error);
