@@ -1,9 +1,11 @@
+// App.jsx
 import "./App.css";
 import { GiAbstract045 } from "react-icons/gi";
 import Footer from "./components/Footer";
 import { FiSearch } from "react-icons/fi";
 import Card from "./components/Card";
 import CreateCard from "./components/CreateCard";
+import LoadingCard from "./components/LoadingCard";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -11,15 +13,19 @@ function App() {
   const [cardData, setCardData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showCreateCard, setShowCreateCard] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Fetch all cards initially
   useEffect(() => {
     const fetchCards = async () => {
+      setLoading(true);
       try {
         const response = await axios.get("https://fullstack-assignment-c1dy.onrender.com/api/v1/cards");
         setCardData(response.data);
       } catch (error) {
         console.error("Error fetching cards:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCards();
@@ -28,6 +34,7 @@ function App() {
   // Handle search functionality
   const handleSearch = async (e) => {
     setSearchTerm(e.target.value);
+    setLoading(true);
     if (e.target.value) {
       try {
         const response = await axios.get(`https://fullstack-assignment-c1dy.onrender.com/api/v1/cards/${e.target.value}`);
@@ -44,6 +51,7 @@ function App() {
         console.error("Error fetching all cards:", error);
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -85,7 +93,12 @@ function App() {
       </div>
 
       <div className="flex flex-wrap justify-center gap-4 p-4">
-        {cardData.length > 0 ? (
+        {loading ? (
+          // Display multiple skeleton loaders while data is loading
+          Array.from({ length: 4 }).map((_, index) => (
+            <LoadingCard key={index} />
+          ))
+        ) : cardData.length > 0 ? (
           cardData.map((card) => (
             <Card key={card._id} title={card.title} description={card.description} />
           ))
